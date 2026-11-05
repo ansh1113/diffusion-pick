@@ -24,9 +24,9 @@ train:
   lr: 3.0e-4
   lr_backbone: 3.0e-4
   weight_decay: 1.0e-4
-  steps: 30000
+  steps: 10000
   warmup: 500
   ema: false
   log_every: 100
-  ckpt_every: 5000
+  ckpt_every: 2500
   seed: 0

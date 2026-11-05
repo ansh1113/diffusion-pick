@@ -22,7 +22,7 @@ train:
   batch_size: 64
   lr: 3.0e-4
   weight_decay: 1.0e-6
-  steps: 24000
+  steps: 12000
   warmup: 500
   ema: true
   log_every: 100
