@@ -1,0 +1,13 @@
+193 ok / 31 failed  (313s)
+203 ok / 32 failed  (329s)
+saved 200 demos, 10040 steps (len 38-68, mean 50.2), expert success 200/232 -> data/demos_64_distract.zarr  [329s]
+80 ok / 34 failed  (207s)
+99 ok / 41 failed  (252s)
+101 ok / 44 failed  (284s)
+saved 100 demos, 7637 steps (len 54-123, mean 76.4), expert success 100/144 -> data/recovery_64.zarr  [285s]
+perturbations: {'drop': 21, 'miss': 47, 'knock': 16, 'high': 16}; 888 deliberate-mistake steps masked from training
+79 ok / 35 failed  (251s)
+99 ok / 42 failed  (309s)
+101 ok / 45 failed  (350s)
+saved 100 demos, 7629 steps (len 54-123, mean 76.3), expert success 100/145 -> data/recovery_64_distract.zarr  [350s]
+perturbations: {'drop': 20, 'miss': 48, 'knock': 16, 'high': 16}; 897 deliberate-mistake steps masked from training

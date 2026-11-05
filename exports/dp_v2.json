@@ -1,0 +1,45 @@
+{
+ "ckpt": "runs/dp_v2/best.pt",
+ "policy": "diffusion",
+ "img_size": 64,
+ "obs_horizon": 2,
+ "pred_horizon": 16,
+ "action_dim": 5,
+ "inputs": {
+  "front_rgb": [
+   1,
+   2,
+   3,
+   64,
+   64
+  ],
+  "wrist_rgb": [
+   1,
+   2,
+   3,
+   64,
+   64
+  ],
+  "proprio": [
+   1,
+   2,
+   12
+  ],
+  "noise": [
+   1,
+   16,
+   5
+  ]
+ },
+ "input_dtypes": {
+  "front_rgb": "torch.uint8",
+  "wrist_rgb": "torch.uint8",
+  "proprio": "torch.float32",
+  "noise": "torch.float32"
+ },
+ "output": "actions [batch, pred_horizon, 5] = (x, y, z, yaw, grip)",
+ "max_abs_err_vs_torch": 1.7881393432617188e-07,
+ "ort_cpu_latency_ms": 31.87,
+ "size_mb": 27.22,
+ "note": "DDIM loop unrolled; feed noise ~ N(0, I) of shape [batch, pred_horizon, 5]."
+}

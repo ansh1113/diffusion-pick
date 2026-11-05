@@ -10,7 +10,110 @@ Everything here — data, training, evaluation, GIFs, ONNX — was produced on a
 (software OpenGL via EGL/llvmpipe) with the reduced 64x64 configs. A full-resolution config for a
 single A10 GPU is included.
 
-## Results (reduced 64x64 configs, trained on a 4-core CPU)
+The project has had two iterations. **v1** is the baseline: Diffusion Policy vs ACT. **v2** addresses
+the two failure modes found in v1, using Diffusion Policy only (ACT keeps its v1 numbers as the baseline):
+1. **No recovery after a missed grasp.** v2 adds 100 demos from a perturbation expert that deliberately
+   misses, knocks, closes too high or drops the cube, and then re-grasps.
+2. **Distractor and lighting sensitivity.** v2 adds train-time robustness: strong photometric
+   augmentation and random distractor objects in the demos. Nothing changes at test time.
+
+## v2 results: recovery demos + train-time robustness
+
+Same architecture (`dp_reduced`), optimizer, schedule (12k steps), checkpoint-selection protocol, and
+the **same 4 test conditions on the same 100 test seeds** as v1. The test environment code paths are
+unchanged: the training-only distractor pool is only built when `train_distractors > 0`, and the test
+distractors, lighting and camera perturbations are the v1 ones.
+
+![v1 vs v2](results/v1_vs_v2.png)
+
+| Policy | nominal | distractors | lighting | camera shift |
+|---|---|---|---|---|
+| ACT (baseline, v1) | 76% | 48% | 41% | 74% |
+| Diffusion Policy v1 | 87% | 67% | 67% | 81% |
+| **Diffusion Policy v2** | **95%** (CI 89-98) | **90%** (CI 83-94) | **93%** (CI 86-97) | **92%** (CI 85-96) |
+
+Paired comparison on identical seeds (`scripts/compare_paired.py`, exact McNemar test):
+
+| condition | v1 | v2 | Δ | v1 fail → v2 success | v1 success → v2 fail | McNemar p |
+|---|---|---|---|---|---|---|
+| nominal | 87% | **95%** | +8 | 13 | 5 | 0.096 |
+| distractors | 67% | **90%** | +23 | 29 | 6 | 1.2e-4 |
+| lighting | 67% | **93%** | +26 | 28 | 2 | 8.7e-7 |
+| camera shift | 81% | **92%** | +11 | 18 | 7 | 0.043 |
+
+<!-- ABLATION -->
+
+### What changed in v2
+
+**1. Recovery demos (`ScriptedExpert(recovery=True)`, `scripts/generate_demos.py --recovery`).** Each
+recovery episode injects exactly one deliberate mistake on the first grasp attempt:
+
+| perturbation | what the expert does | share of the 100 demos |
+|---|---|---|
+| miss | grasp target offset 3–4.5 cm perpendicular to the finger closing direction, so the fingers close beside the cube (often clipping it) | 48 |
+| knock | offset along the closing direction, so a finger lands on the cube and pushes or tilts it | 16 |
+| high | gripper closes 3.5–5 cm above the cube | 16 |
+| drop | gripper opens for 2–3 steps early in the transfer, so the cube falls | 20 |
+
+After every close and during lift/transfer, the expert checks the grasp from the gripper state (finger
+width > 2.5 cm and cube within 4 cm of the TCP). On failure it re-opens, rises above the cube's *current*
+pose, re-aligns to its (possibly changed) yaw, and re-grasps, up to 3 times. An episode is kept only if
+it succeeds **and** contains a failed grasp followed by a second grasp. That gave 100 demos from 145
+attempts, 76 steps each on average.
+The **deliberate-mistake actions are masked out of training** (`expert_mask = 0`, 897 steps): every
+sample whose action chunk overlaps a mistake is dropped (2,013 of 17,669 samples). The policy
+therefore sees the bad states, such as a cube knocked aside or a gripper closed on nothing, but only
+learns the corrective actions. I chose perturbation demos over DAgger because the state-machine
+expert can label "what to do now" from any state only once it has an explicit grasp check, and
+perturbations give targeted coverage of exactly the v1 failure (missed or knocked grasps).
+
+**2. Train-time robustness.**
+* **Random distractors in the demos.** The 200 base demos were re-rendered from the same seeds (same
+  cube/bowl layouts and expert trajectories) with 0–3 objects per episode from a *training-only* pool of
+  8 shapes (`TRAIN_POOL_SPECS`: bars, cylinders, a sphere, a capsule, an ellipsoid, a flat box). Their
+  colors are re-sampled each episode from the whole HSV space except near-red (hue within ±25° of red
+  with saturation > 0.35). The recovery demos also have distractors. The fixed test distractors (yellow
+  cube, purple cylinder, orange bar) are never used in training, but random colors do cover their
+  hues, so the distractor test now measures generalization to *unseen objects* rather than to unseen
+  colors.
+* **Strong photometric augmentation** (`augment_strong`), applied per sample and per camera, consistent
+  across the 2-frame observation window: brightness x[0.55, 1.45], contrast x[0.65, 1.35], saturation
+  x[0.7, 1.4], per-channel gain x[0.8, 1.2] (tint), a random linear illumination gradient (±35%, random
+  direction), and pixel noise, on top of the v1 random shift. There is no hue rotation, so red stays
+  red. Lighting in the simulator is never randomized for training.
+
+| v2 dataset | episodes | steps |
+|---|---|---|
+| `data/demos_64_distract.zarr` (v1 seeds + train distractors) | 200 | 10,040 |
+| `data/recovery_64_distract.zarr` (recovery + train distractors) | 100 | 7,629 |
+| total used by `configs/dp_v2.yaml` | 300 | 17,669 (15,656 training samples after masking) |
+
+### v2 details
+
+| | Diffusion Policy v2 |
+|---|---|
+| training | 12k steps, batch 64, 116 min on 4 CPU cores (same per-step cost as v1) |
+| checkpoint selection (24 selection-seed rollouts) | 8k 96%, 10k 92%, 12k 96%; tie, so the later one (12k), as in v1 |
+| mean episode length of successes (nominal) | 57.8 steps (v1: 52.6; longer partly because of re-grasps) |
+| successes with more than one gripper-close command (nominal / distractors / lighting / camera) | 22 / 15 / 16 / 17. This is an *upper bound* on re-grasps: brief gripper-command flicker also counts. |
+| ONNX | `exports/dp_v2.onnx`, 27 MB, max abs error vs PyTorch 1.8e-7, 32 ms per chunk on an idle CPU |
+| closed loop with ONNX only (first 20 test seeds) | 18/20 (90%) |
+
+**Remaining failures (30 of 400 episodes).** 14 never close the gripper: the policy hesitates and
+hovers, for example between the red cube and a distractor, or near the bowl in dim light. The other
+16 keep re-trying the grasp (4–8 close commands) until the 150-step limit. Re-grasping is now a
+learned behavior, but it does not always converge.
+
+| | v2 |
+|---|---|
+| recovery (v1 **failed** this seed: grasp knocks the cube, the policy re-approaches and re-grasps) | ![](results/dp_v2/gifs/nominal_seed1000006_success_regrasp.gif) |
+| v1 on the same seed (reaches the cube, fails to grasp, then hovers without retrying) | ![](results/dp_reduced/gifs/nominal_seed1000006_fail.gif) |
+| distractors | ![](results/dp_v2/gifs/distractors_seed1000001_success.gif) |
+| lighting | ![](results/dp_v2/gifs/lighting_seed1000001_success.gif) |
+| camera shift | ![](results/dp_v2/gifs/camera_shift_seed1000000_success.gif) |
+| failure: hesitation with distractors | ![](results/dp_v2/gifs/distractors_seed1000006_fail.gif) |
+
+## v1 results (baseline iteration)
 
 100 randomized rollouts per condition on held-out test seeds (`1000000-1000099`, disjoint from the
 demo seeds; identical cube/bowl layouts across conditions and policies), max 150 steps (15 s) per
@@ -213,6 +316,33 @@ python scripts/export_onnx.py --ckpt runs/dp_reduced/best.pt --out exports/dp_re
 python scripts/make_report.py results/dp_reduced results/act_reduced
 ```
 
+### v2 (recovery + robustness)
+
+```bash
+python scripts/generate_demos.py --n 200 --train-distractors 3 --out data/demos_64_distract.zarr
+```
+
+```bash
+python scripts/generate_demos.py --n 100 --recovery --train-distractors 3 --seed-offset 200000 --out data/recovery_64_distract.zarr
+```
+
+```bash
+python scripts/train.py --config configs/dp_v2.yaml
+```
+
+```bash
+python scripts/evaluate.py --ckpt runs/dp_v2/best.pt --n 100 --out results/dp_v2
+```
+
+```bash
+python scripts/compare_paired.py results/dp_reduced results/dp_v2
+```
+
+Ablation data: `data/recovery_64.zarr` (the same recovery seeds without distractors:
+`--recovery --seed-offset 200000`). Ablation configs: `configs/dp_v2_recovery_only.yaml`, `configs/dp_v2_aug_only.yaml`.
+For the full-res version of v2, generate the same files with `--img-size 128` and set `aug_strong: true`
+plus the two-file `data:` list in `configs/dp_full.yaml`.
+
 ### Full-resolution run (A10)
 
 ```bash
@@ -236,15 +366,18 @@ Evaluation runs policy inference on CPU workers (one per core), so it is the sam
 ```
 assets/franka_emika_panda/   Menagerie Panda (+ assets_lite/ decimated visual meshes)
 dpick/env.py                 MuJoCo env, IK controller, randomization, robustness perturbations
-dpick/expert.py              scripted expert
+dpick/expert.py              scripted expert (+ v2 recovery mode: deliberate mistakes, grasp check, re-grasp)
 dpick/dataset.py             zarr I/O, normalizers, sequence dataset
 dpick/models/common.py       device selection, GroupNorm ResNet18, spatial softmax, augmentation, EMA
 dpick/models/diffusion.py    1D conditional UNet, cosine DDPM schedule, DDIM sampler, DiffusionPolicy
 dpick/models/act.py          ACT (CVAE + transformer encoder/decoder)
 dpick/rollout.py             closed-loop execution (receding horizon / temporal ensembling), GIF frames
-configs/                     dp_reduced / act_reduced (CPU), dp_full / act_full (A10)
-scripts/                     generate_demos, train, evaluate, export_onnx, make_report, make_lite_meshes
-data/demos_64.zarr           the 200 demonstrations used here
+configs/                     dp_reduced / act_reduced (CPU), dp_full / act_full (A10),
+                             dp_v2 + ablations dp_v2_recovery_only / dp_v2_aug_only (CPU)
+scripts/                     generate_demos, train, evaluate, export_onnx, eval_onnx, make_report,
+                             compare_paired, render_failures, render_seeds, make_lite_meshes
+data/demos_64.zarr           the 200 v1 demonstrations
+data/*_distract.zarr, data/recovery_64*.zarr   v2 data (train distractors / recovery demos)
 runs/*/best.pt               selected checkpoints (+ train_log.jsonl)
 results/                     results.json per policy, results.md, success_rates.png, GIFs
 exports/                     ONNX models + metadata json

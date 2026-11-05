@@ -1,0 +1,2840 @@
+{
+ "ckpt": "runs/dp_v2/best.pt",
+ "policy": "diffusion",
+ "train_step": 12000,
+ "n": 100,
+ "results": {
+  "nominal": {
+   "success_rate": 0.95,
+   "n": 100,
+   "n_success": 95,
+   "mean_steps_success": 57.8421052631579,
+   "episodes": [
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000000,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 51,
+     "grasp_attempts": 1,
+     "seed": 1000001,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000002,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 52,
+     "grasp_attempts": 1,
+     "seed": 1000003,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 75,
+     "grasp_attempts": 2,
+     "seed": 1000004,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 55,
+     "grasp_attempts": 2,
+     "seed": 1000005,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 132,
+     "grasp_attempts": 3,
+     "seed": 1000006,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 50,
+     "grasp_attempts": 1,
+     "seed": 1000007,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000008,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000009,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 63,
+     "grasp_attempts": 2,
+     "seed": 1000010,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000011,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000012,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 87,
+     "grasp_attempts": 2,
+     "seed": 1000013,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 145,
+     "grasp_attempts": 11,
+     "seed": 1000014,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 52,
+     "grasp_attempts": 1,
+     "seed": 1000015,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000016,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 138,
+     "grasp_attempts": 6,
+     "seed": 1000017,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 59,
+     "grasp_attempts": 1,
+     "seed": 1000018,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 55,
+     "grasp_attempts": 1,
+     "seed": 1000019,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 53,
+     "grasp_attempts": 1,
+     "seed": 1000020,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000021,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000022,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000023,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000024,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 51,
+     "grasp_attempts": 1,
+     "seed": 1000025,
+     "condition": "nominal"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 4,
+     "seed": 1000026,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000027,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000028,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000029,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 59,
+     "grasp_attempts": 1,
+     "seed": 1000030,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 53,
+     "grasp_attempts": 1,
+     "seed": 1000031,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000032,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 109,
+     "grasp_attempts": 2,
+     "seed": 1000033,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 50,
+     "grasp_attempts": 1,
+     "seed": 1000034,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000035,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 42,
+     "grasp_attempts": 1,
+     "seed": 1000036,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 54,
+     "grasp_attempts": 1,
+     "seed": 1000037,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000038,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 41,
+     "grasp_attempts": 1,
+     "seed": 1000039,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000040,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 70,
+     "grasp_attempts": 1,
+     "seed": 1000041,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 50,
+     "grasp_attempts": 1,
+     "seed": 1000042,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000043,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000044,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 54,
+     "grasp_attempts": 1,
+     "seed": 1000045,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000046,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 64,
+     "grasp_attempts": 1,
+     "seed": 1000047,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 43,
+     "grasp_attempts": 1,
+     "seed": 1000048,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 93,
+     "grasp_attempts": 2,
+     "seed": 1000049,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 51,
+     "grasp_attempts": 1,
+     "seed": 1000050,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 51,
+     "grasp_attempts": 1,
+     "seed": 1000051,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 40,
+     "grasp_attempts": 1,
+     "seed": 1000052,
+     "condition": "nominal"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 0,
+     "seed": 1000053,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000054,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000055,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000056,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 101,
+     "grasp_attempts": 1,
+     "seed": 1000057,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 68,
+     "grasp_attempts": 2,
+     "seed": 1000058,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 84,
+     "grasp_attempts": 2,
+     "seed": 1000059,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 59,
+     "grasp_attempts": 1,
+     "seed": 1000060,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000061,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 61,
+     "grasp_attempts": 1,
+     "seed": 1000062,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 65,
+     "grasp_attempts": 2,
+     "seed": 1000063,
+     "condition": "nominal"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 1,
+     "seed": 1000064,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 65,
+     "grasp_attempts": 2,
+     "seed": 1000065,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 63,
+     "grasp_attempts": 2,
+     "seed": 1000066,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 66,
+     "grasp_attempts": 2,
+     "seed": 1000067,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 53,
+     "grasp_attempts": 1,
+     "seed": 1000068,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 55,
+     "grasp_attempts": 1,
+     "seed": 1000069,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 54,
+     "grasp_attempts": 1,
+     "seed": 1000070,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 83,
+     "grasp_attempts": 2,
+     "seed": 1000071,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 56,
+     "grasp_attempts": 1,
+     "seed": 1000072,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 52,
+     "grasp_attempts": 1,
+     "seed": 1000073,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000074,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 54,
+     "grasp_attempts": 1,
+     "seed": 1000075,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 64,
+     "grasp_attempts": 2,
+     "seed": 1000076,
+     "condition": "nominal"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 0,
+     "seed": 1000077,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 37,
+     "grasp_attempts": 1,
+     "seed": 1000078,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 43,
+     "grasp_attempts": 1,
+     "seed": 1000079,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 50,
+     "grasp_attempts": 1,
+     "seed": 1000080,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000081,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 86,
+     "grasp_attempts": 2,
+     "seed": 1000082,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 51,
+     "grasp_attempts": 1,
+     "seed": 1000083,
+     "condition": "nominal"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 6,
+     "seed": 1000084,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000085,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 75,
+     "grasp_attempts": 2,
+     "seed": 1000086,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000087,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 43,
+     "grasp_attempts": 1,
+     "seed": 1000088,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 83,
+     "grasp_attempts": 2,
+     "seed": 1000089,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 50,
+     "grasp_attempts": 1,
+     "seed": 1000090,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000091,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 76,
+     "grasp_attempts": 2,
+     "seed": 1000092,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000093,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 51,
+     "grasp_attempts": 1,
+     "seed": 1000094,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 83,
+     "grasp_attempts": 2,
+     "seed": 1000095,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 39,
+     "grasp_attempts": 1,
+     "seed": 1000096,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000097,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000098,
+     "condition": "nominal"
+    },
+    {
+     "success": true,
+     "steps": 50,
+     "grasp_attempts": 1,
+     "seed": 1000099,
+     "condition": "nominal"
+    }
+   ]
+  },
+  "distractors": {
+   "success_rate": 0.9,
+   "n": 100,
+   "n_success": 90,
+   "mean_steps_success": 53.46666666666667,
+   "episodes": [
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000000,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 57,
+     "grasp_attempts": 1,
+     "seed": 1000001,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 41,
+     "grasp_attempts": 1,
+     "seed": 1000002,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000003,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000004,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 97,
+     "grasp_attempts": 2,
+     "seed": 1000005,
+     "condition": "distractors"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 0,
+     "seed": 1000006,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000007,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000008,
+     "condition": "distractors"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 5,
+     "seed": 1000009,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 56,
+     "grasp_attempts": 1,
+     "seed": 1000010,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 56,
+     "grasp_attempts": 1,
+     "seed": 1000011,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000012,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 80,
+     "grasp_attempts": 2,
+     "seed": 1000013,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 41,
+     "grasp_attempts": 1,
+     "seed": 1000014,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 55,
+     "grasp_attempts": 1,
+     "seed": 1000015,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 42,
+     "grasp_attempts": 1,
+     "seed": 1000016,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000017,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 54,
+     "grasp_attempts": 1,
+     "seed": 1000018,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 71,
+     "grasp_attempts": 2,
+     "seed": 1000019,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000020,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 40,
+     "grasp_attempts": 1,
+     "seed": 1000021,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000022,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 65,
+     "grasp_attempts": 2,
+     "seed": 1000023,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 41,
+     "grasp_attempts": 1,
+     "seed": 1000024,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000025,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 99,
+     "grasp_attempts": 2,
+     "seed": 1000026,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000027,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 35,
+     "grasp_attempts": 1,
+     "seed": 1000028,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000029,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 53,
+     "grasp_attempts": 1,
+     "seed": 1000030,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000031,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 56,
+     "grasp_attempts": 1,
+     "seed": 1000032,
+     "condition": "distractors"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 4,
+     "seed": 1000033,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 50,
+     "grasp_attempts": 1,
+     "seed": 1000034,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 60,
+     "grasp_attempts": 2,
+     "seed": 1000035,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000036,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000037,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 78,
+     "grasp_attempts": 2,
+     "seed": 1000038,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000039,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 53,
+     "grasp_attempts": 1,
+     "seed": 1000040,
+     "condition": "distractors"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 0,
+     "seed": 1000041,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 52,
+     "grasp_attempts": 1,
+     "seed": 1000042,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000043,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 43,
+     "grasp_attempts": 1,
+     "seed": 1000044,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 54,
+     "grasp_attempts": 1,
+     "seed": 1000045,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000046,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 58,
+     "grasp_attempts": 1,
+     "seed": 1000047,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 41,
+     "grasp_attempts": 1,
+     "seed": 1000048,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 54,
+     "grasp_attempts": 1,
+     "seed": 1000049,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 57,
+     "grasp_attempts": 1,
+     "seed": 1000050,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000051,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 112,
+     "grasp_attempts": 4,
+     "seed": 1000052,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 58,
+     "grasp_attempts": 1,
+     "seed": 1000053,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 105,
+     "grasp_attempts": 2,
+     "seed": 1000054,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 77,
+     "grasp_attempts": 2,
+     "seed": 1000055,
+     "condition": "distractors"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 7,
+     "seed": 1000056,
+     "condition": "distractors"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 6,
+     "seed": 1000057,
+     "condition": "distractors"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 4,
+     "seed": 1000058,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 43,
+     "grasp_attempts": 1,
+     "seed": 1000059,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000060,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 51,
+     "grasp_attempts": 1,
+     "seed": 1000061,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 58,
+     "grasp_attempts": 1,
+     "seed": 1000062,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 43,
+     "grasp_attempts": 1,
+     "seed": 1000063,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000064,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 75,
+     "grasp_attempts": 2,
+     "seed": 1000065,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 43,
+     "grasp_attempts": 1,
+     "seed": 1000066,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000067,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 51,
+     "grasp_attempts": 1,
+     "seed": 1000068,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 40,
+     "grasp_attempts": 1,
+     "seed": 1000069,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 55,
+     "grasp_attempts": 1,
+     "seed": 1000070,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 52,
+     "grasp_attempts": 1,
+     "seed": 1000071,
+     "condition": "distractors"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 0,
+     "seed": 1000072,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 42,
+     "grasp_attempts": 1,
+     "seed": 1000073,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 67,
+     "grasp_attempts": 2,
+     "seed": 1000074,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 57,
+     "grasp_attempts": 1,
+     "seed": 1000075,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000076,
+     "condition": "distractors"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 2,
+     "seed": 1000077,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000078,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 76,
+     "grasp_attempts": 2,
+     "seed": 1000079,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 51,
+     "grasp_attempts": 1,
+     "seed": 1000080,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000081,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000082,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 55,
+     "grasp_attempts": 1,
+     "seed": 1000083,
+     "condition": "distractors"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 5,
+     "seed": 1000084,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000085,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 50,
+     "grasp_attempts": 1,
+     "seed": 1000086,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000087,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000088,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 52,
+     "grasp_attempts": 1,
+     "seed": 1000089,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 53,
+     "grasp_attempts": 1,
+     "seed": 1000090,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 43,
+     "grasp_attempts": 1,
+     "seed": 1000091,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 64,
+     "grasp_attempts": 2,
+     "seed": 1000092,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 53,
+     "grasp_attempts": 1,
+     "seed": 1000093,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000094,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000095,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 78,
+     "grasp_attempts": 2,
+     "seed": 1000096,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 43,
+     "grasp_attempts": 1,
+     "seed": 1000097,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000098,
+     "condition": "distractors"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000099,
+     "condition": "distractors"
+    }
+   ]
+  },
+  "lighting": {
+   "success_rate": 0.93,
+   "n": 100,
+   "n_success": 93,
+   "mean_steps_success": 55.645161290322584,
+   "episodes": [
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000000,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 51,
+     "grasp_attempts": 1,
+     "seed": 1000001,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000002,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 74,
+     "grasp_attempts": 2,
+     "seed": 1000003,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 76,
+     "grasp_attempts": 2,
+     "seed": 1000004,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000005,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 78,
+     "grasp_attempts": 1,
+     "seed": 1000006,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000007,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000008,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000009,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000010,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 90,
+     "grasp_attempts": 4,
+     "seed": 1000011,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 56,
+     "grasp_attempts": 1,
+     "seed": 1000012,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000013,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 41,
+     "grasp_attempts": 1,
+     "seed": 1000014,
+     "condition": "lighting"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 0,
+     "seed": 1000015,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 41,
+     "grasp_attempts": 1,
+     "seed": 1000016,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000017,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000018,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000019,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 58,
+     "grasp_attempts": 1,
+     "seed": 1000020,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 42,
+     "grasp_attempts": 1,
+     "seed": 1000021,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000022,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000023,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000024,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000025,
+     "condition": "lighting"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 5,
+     "seed": 1000026,
+     "condition": "lighting"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 8,
+     "seed": 1000027,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 63,
+     "grasp_attempts": 2,
+     "seed": 1000028,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 38,
+     "grasp_attempts": 1,
+     "seed": 1000029,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 67,
+     "grasp_attempts": 1,
+     "seed": 1000030,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 51,
+     "grasp_attempts": 1,
+     "seed": 1000031,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 52,
+     "grasp_attempts": 1,
+     "seed": 1000032,
+     "condition": "lighting"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 0,
+     "seed": 1000033,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000034,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 43,
+     "grasp_attempts": 1,
+     "seed": 1000035,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 40,
+     "grasp_attempts": 1,
+     "seed": 1000036,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000037,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000038,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 52,
+     "grasp_attempts": 1,
+     "seed": 1000039,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 73,
+     "grasp_attempts": 1,
+     "seed": 1000040,
+     "condition": "lighting"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 0,
+     "seed": 1000041,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 51,
+     "grasp_attempts": 1,
+     "seed": 1000042,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000043,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000044,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 53,
+     "grasp_attempts": 1,
+     "seed": 1000045,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000046,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 60,
+     "grasp_attempts": 1,
+     "seed": 1000047,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000048,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 71,
+     "grasp_attempts": 1,
+     "seed": 1000049,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000050,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 52,
+     "grasp_attempts": 1,
+     "seed": 1000051,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 85,
+     "grasp_attempts": 3,
+     "seed": 1000052,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 75,
+     "grasp_attempts": 2,
+     "seed": 1000053,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 88,
+     "grasp_attempts": 2,
+     "seed": 1000054,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 57,
+     "grasp_attempts": 1,
+     "seed": 1000055,
+     "condition": "lighting"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 7,
+     "seed": 1000056,
+     "condition": "lighting"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 0,
+     "seed": 1000057,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 107,
+     "grasp_attempts": 3,
+     "seed": 1000058,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 54,
+     "grasp_attempts": 1,
+     "seed": 1000059,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000060,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 50,
+     "grasp_attempts": 1,
+     "seed": 1000061,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 56,
+     "grasp_attempts": 1,
+     "seed": 1000062,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 39,
+     "grasp_attempts": 1,
+     "seed": 1000063,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 52,
+     "grasp_attempts": 1,
+     "seed": 1000064,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 85,
+     "grasp_attempts": 3,
+     "seed": 1000065,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000066,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 85,
+     "grasp_attempts": 2,
+     "seed": 1000067,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000068,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 38,
+     "grasp_attempts": 1,
+     "seed": 1000069,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 55,
+     "grasp_attempts": 1,
+     "seed": 1000070,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 57,
+     "grasp_attempts": 1,
+     "seed": 1000071,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 56,
+     "grasp_attempts": 1,
+     "seed": 1000072,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 37,
+     "grasp_attempts": 1,
+     "seed": 1000073,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 73,
+     "grasp_attempts": 2,
+     "seed": 1000074,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 87,
+     "grasp_attempts": 2,
+     "seed": 1000075,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 50,
+     "grasp_attempts": 1,
+     "seed": 1000076,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 71,
+     "grasp_attempts": 2,
+     "seed": 1000077,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 43,
+     "grasp_attempts": 1,
+     "seed": 1000078,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000079,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000080,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 50,
+     "grasp_attempts": 1,
+     "seed": 1000081,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 91,
+     "grasp_attempts": 2,
+     "seed": 1000082,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 41,
+     "grasp_attempts": 1,
+     "seed": 1000083,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 148,
+     "grasp_attempts": 3,
+     "seed": 1000084,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 78,
+     "grasp_attempts": 2,
+     "seed": 1000085,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 51,
+     "grasp_attempts": 1,
+     "seed": 1000086,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 43,
+     "grasp_attempts": 1,
+     "seed": 1000087,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 56,
+     "grasp_attempts": 1,
+     "seed": 1000088,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 54,
+     "grasp_attempts": 1,
+     "seed": 1000089,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000090,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000091,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 52,
+     "grasp_attempts": 1,
+     "seed": 1000092,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 50,
+     "grasp_attempts": 1,
+     "seed": 1000093,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 55,
+     "grasp_attempts": 1,
+     "seed": 1000094,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 43,
+     "grasp_attempts": 1,
+     "seed": 1000095,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 41,
+     "grasp_attempts": 1,
+     "seed": 1000096,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000097,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 51,
+     "grasp_attempts": 1,
+     "seed": 1000098,
+     "condition": "lighting"
+    },
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000099,
+     "condition": "lighting"
+    }
+   ]
+  },
+  "camera_shift": {
+   "success_rate": 0.92,
+   "n": 100,
+   "n_success": 92,
+   "mean_steps_success": 57.90217391304348,
+   "episodes": [
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000000,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 50,
+     "grasp_attempts": 1,
+     "seed": 1000001,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000002,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000003,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 78,
+     "grasp_attempts": 2,
+     "seed": 1000004,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000005,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 72,
+     "grasp_attempts": 1,
+     "seed": 1000006,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 41,
+     "grasp_attempts": 1,
+     "seed": 1000007,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 39,
+     "grasp_attempts": 1,
+     "seed": 1000008,
+     "condition": "camera_shift"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 0,
+     "seed": 1000009,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 55,
+     "grasp_attempts": 1,
+     "seed": 1000010,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 52,
+     "grasp_attempts": 1,
+     "seed": 1000011,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000012,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000013,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000014,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 75,
+     "grasp_attempts": 1,
+     "seed": 1000015,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 43,
+     "grasp_attempts": 1,
+     "seed": 1000016,
+     "condition": "camera_shift"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 5,
+     "seed": 1000017,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 55,
+     "grasp_attempts": 1,
+     "seed": 1000018,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 82,
+     "grasp_attempts": 2,
+     "seed": 1000019,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000020,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000021,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000022,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000023,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000024,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 50,
+     "grasp_attempts": 1,
+     "seed": 1000025,
+     "condition": "camera_shift"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 0,
+     "seed": 1000026,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000027,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 35,
+     "grasp_attempts": 1,
+     "seed": 1000028,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000029,
+     "condition": "camera_shift"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 1,
+     "seed": 1000030,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 65,
+     "grasp_attempts": 1,
+     "seed": 1000031,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000032,
+     "condition": "camera_shift"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 0,
+     "seed": 1000033,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000034,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 51,
+     "grasp_attempts": 1,
+     "seed": 1000035,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000036,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 130,
+     "grasp_attempts": 4,
+     "seed": 1000037,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000038,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 51,
+     "grasp_attempts": 1,
+     "seed": 1000039,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 146,
+     "grasp_attempts": 4,
+     "seed": 1000040,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 73,
+     "grasp_attempts": 1,
+     "seed": 1000041,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000042,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000043,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000044,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 107,
+     "grasp_attempts": 3,
+     "seed": 1000045,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 63,
+     "grasp_attempts": 2,
+     "seed": 1000046,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 55,
+     "grasp_attempts": 1,
+     "seed": 1000047,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000048,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 135,
+     "grasp_attempts": 1,
+     "seed": 1000049,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000050,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 50,
+     "grasp_attempts": 1,
+     "seed": 1000051,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 42,
+     "grasp_attempts": 1,
+     "seed": 1000052,
+     "condition": "camera_shift"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 0,
+     "seed": 1000053,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 96,
+     "grasp_attempts": 2,
+     "seed": 1000054,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 55,
+     "grasp_attempts": 1,
+     "seed": 1000055,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 51,
+     "grasp_attempts": 1,
+     "seed": 1000056,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 62,
+     "grasp_attempts": 1,
+     "seed": 1000057,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000058,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 61,
+     "grasp_attempts": 1,
+     "seed": 1000059,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000060,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000061,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 51,
+     "grasp_attempts": 1,
+     "seed": 1000062,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 37,
+     "grasp_attempts": 1,
+     "seed": 1000063,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 127,
+     "grasp_attempts": 3,
+     "seed": 1000064,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 67,
+     "grasp_attempts": 2,
+     "seed": 1000065,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000066,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 41,
+     "grasp_attempts": 1,
+     "seed": 1000067,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000068,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000069,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 124,
+     "grasp_attempts": 1,
+     "seed": 1000070,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 79,
+     "grasp_attempts": 2,
+     "seed": 1000071,
+     "condition": "camera_shift"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 0,
+     "seed": 1000072,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000073,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 59,
+     "grasp_attempts": 2,
+     "seed": 1000074,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 52,
+     "grasp_attempts": 1,
+     "seed": 1000075,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000076,
+     "condition": "camera_shift"
+    },
+    {
+     "success": false,
+     "steps": 150,
+     "grasp_attempts": 7,
+     "seed": 1000077,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000078,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 66,
+     "grasp_attempts": 2,
+     "seed": 1000079,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 54,
+     "grasp_attempts": 1,
+     "seed": 1000080,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 84,
+     "grasp_attempts": 3,
+     "seed": 1000081,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 89,
+     "grasp_attempts": 2,
+     "seed": 1000082,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000083,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 87,
+     "grasp_attempts": 2,
+     "seed": 1000084,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 55,
+     "grasp_attempts": 2,
+     "seed": 1000085,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 60,
+     "grasp_attempts": 1,
+     "seed": 1000086,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 46,
+     "grasp_attempts": 1,
+     "seed": 1000087,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000088,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 42,
+     "grasp_attempts": 1,
+     "seed": 1000089,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000090,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000091,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 47,
+     "grasp_attempts": 1,
+     "seed": 1000092,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 48,
+     "grasp_attempts": 1,
+     "seed": 1000093,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 56,
+     "grasp_attempts": 1,
+     "seed": 1000094,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 44,
+     "grasp_attempts": 1,
+     "seed": 1000095,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 40,
+     "grasp_attempts": 1,
+     "seed": 1000096,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 45,
+     "grasp_attempts": 1,
+     "seed": 1000097,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 87,
+     "grasp_attempts": 2,
+     "seed": 1000098,
+     "condition": "camera_shift"
+    },
+    {
+     "success": true,
+     "steps": 49,
+     "grasp_attempts": 1,
+     "seed": 1000099,
+     "condition": "camera_shift"
+    }
+   ]
+  }
+ }
+}
