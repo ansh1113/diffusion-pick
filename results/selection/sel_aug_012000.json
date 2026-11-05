@@ -1,0 +1,14 @@
+{
+ "ckpt": "runs/dp_v2_aug_only/step_012000.pt",
+ "policy": "diffusion",
+ "train_step": 12000,
+ "n": 24,
+ "results": {
+  "nominal": {
+   "success_rate": 0.5416666666666666,
+   "n": 24,
+   "n_success": 13,
+   "mean_steps_success": 50.76923076923077
+  }
+ }
+}

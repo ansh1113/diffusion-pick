@@ -41,7 +41,46 @@ Paired comparison on identical seeds (`scripts/compare_paired.py`, exact McNemar
 | lighting | 67% | **93%** | +26 | 28 | 2 | 8.7e-7 |
 | camera shift | 81% | **92%** | +11 | 18 | 7 | 0.043 |
 
-<!-- ABLATION -->
+### Ablation: recovery only / augmentation only / both
+
+Each variant gets the same architecture, 12k steps, checkpoint selection protocol, conditions and
+test seeds. "Augmentation" means both train-time robustness parts together: random distractors in
+the demos and the strong photometric augmentation.
+
+![ablation](results/ablation.png)
+
+| variant | data | aug | selected ckpt (selection-seed success) | nominal | distractors | lighting | camera shift |
+|---|---|---|---|---|---|---|---|
+| v1 (neither) | 200 base demos | v1 (shift + mild jitter) | 12k (96%) | 87% | 67% | 67% | 81% |
+| + augmentation only | 200 base demos with train distractors | strong | 8k (75%; 10k 50%, 12k 54%) | 57% | 64% | 43% | 66% |
+| + recovery only | 200 base + 100 recovery demos | v1 | 12k (96%; 3-way tie) | **96%** | 74% | 80% | **97%** |
+| **v2 (both)** | 200 + 100 recovery demos, all with train distractors | strong | 12k (96%) | 95% | **90%** | **93%** | 92% |
+
+Paired McNemar p-values for the effect of adding each component (same seeds):
+
+| comparison | nominal | distractors | lighting | camera shift |
+|---|---|---|---|---|
+| v1 → + recovery only | +9 (p 0.049) | +7 (p 0.26) | +13 (p 0.035) | +16 (p 8.6e-4) |
+| v1 → + augmentation only | **−30** (p 2.8e-6) | −3 (p 0.74) | **−24** (p 1.8e-4) | −15 (p 0.006) |
+| + recovery only → both (add augmentation) | −1 (p 1) | **+16** (p 0.0015) | **+13** (p 0.0072) | −5 (p 0.23) |
+
+What the ablation says:
+* **Recovery data is the big win on its own.** It fixes the v1 failure mode (nominal 87→96%) and also
+  helps under every visual shift, since a policy that retries after a bad grasp tolerates more
+  perception error.
+* **Augmentation helps only on top of recovery data.** Added to recovery, it gives the distractor and
+  lighting gains it was meant for (+16 and +13 points, both significant) at no significant nominal or
+  camera-shift cost. **On its own it hurt badly** (nominal 87→57%). Its failures are imprecise grasps
+  that miss or knock the cube, followed by repeated unsuccessful grasp attempts (30 of 43 nominal failures
+  issue ≥3 close commands). With strong photometric augmentation and only 12k steps, the
+  policy is less precise. Without recovery demos it cannot repair those misses, and training was also
+  less stable (selection success fell from 75% at 8k to 50–54% at 10–12k). My best guess is that
+  heavy augmentation needs a longer schedule (DP normally trains far longer than 77 epochs), but I have
+  not tested that.
+* **Caveats.** Each variant was trained once (one seed), so differences of a few points are within
+  run-to-run noise; only the large paired effects above are reliable. The recovery variants also have
+  50% more demonstrations (300 vs 200 episodes), so "recovery" here means recovery demos *plus* more data.
+
 
 ### What changed in v2
 
@@ -339,7 +378,8 @@ python scripts/compare_paired.py results/dp_reduced results/dp_v2
 ```
 
 Ablation data: `data/recovery_64.zarr` (the same recovery seeds without distractors:
-`--recovery --seed-offset 200000`). Ablation configs: `configs/dp_v2_recovery_only.yaml`, `configs/dp_v2_aug_only.yaml`.
+`--recovery --seed-offset 200000`). Ablation configs: `configs/dp_v2_recovery_only.yaml`, `configs/dp_v2_aug_only.yaml`
+(results in `results/dp_v2_recovery_only`, `results/dp_v2_aug_only`; selection runs in `results/selection/`).
 For the full-res version of v2, generate the same files with `--img-size 128` and set `aug_strong: true`
 plus the two-file `data:` list in `configs/dp_full.yaml`.
 
