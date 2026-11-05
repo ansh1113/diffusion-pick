@@ -1,0 +1,39 @@
+{
+ "ckpt": "runs/act_reduced/best.pt",
+ "policy": "act",
+ "img_size": 64,
+ "obs_horizon": 1,
+ "pred_horizon": 16,
+ "action_dim": 5,
+ "inputs": {
+  "front_rgb": [
+   1,
+   1,
+   3,
+   64,
+   64
+  ],
+  "wrist_rgb": [
+   1,
+   1,
+   3,
+   64,
+   64
+  ],
+  "proprio": [
+   1,
+   1,
+   12
+  ]
+ },
+ "input_dtypes": {
+  "front_rgb": "torch.uint8",
+  "wrist_rgb": "torch.uint8",
+  "proprio": "torch.float32"
+ },
+ "output": "actions [batch, pred_horizon, 5] = (x, y, z, yaw, grip)",
+ "max_abs_err_vs_torch": 3.159046173095703e-06,
+ "ort_cpu_latency_ms": 4.32,
+ "size_mb": 9.58,
+ "note": "ACT with CVAE latent z = 0."
+}

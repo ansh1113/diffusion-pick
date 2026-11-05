@@ -10,7 +10,63 @@ Everything here — data, training, evaluation, GIFs, ONNX — was produced on a
 (software OpenGL via EGL/llvmpipe) with the reduced 64x64 configs. A full-resolution config for a
 single A10 GPU is included.
 
-<!-- RESULTS -->
+## Results (reduced 64x64 configs, trained on a 4-core CPU)
+
+100 randomized rollouts per condition on held-out test seeds (`1000000-1000099`, disjoint from the
+demo seeds; identical cube/bowl layouts across conditions and policies), max 150 steps (15 s) per
+episode, success = red cube resting inside the bowl and released.
+
+| Policy | train steps | nominal | distractors | lighting | camera_shift |
+|---|---|---|---|---|---|
+| Diffusion Policy (CNN, DDIM-10) [`dp_reduced`] | 12000 | **87%** (87/100, 95% CI 79-92) | **67%** (67/100, 95% CI 57-75) | **67%** (67/100, 95% CI 57-75) | **81%** (81/100, 95% CI 72-87) |
+| ACT [`act_reduced`] | 5000 | **76%** (76/100, 95% CI 67-83) | **48%** (48/100, 95% CI 38-58) | **41%** (41/100, 95% CI 32-51) | **74%** (74/100, 95% CI 65-82) |
+
+![success rates](results/success_rates.png)
+
+| | Diffusion Policy | ACT |
+|---|---|---|
+| training | 12k steps, batch 64 (~77 epochs), ~110 min (0.55 s/step)* | 10k steps, batch 64, 70 min (0.42 s/step; selected ckpt: 5k) |
+| mean episode length of successes (nominal) | 52.6 steps | 47.6 steps (expert demos: 50.2) |
+| ONNX file | `exports/dp_reduced.onnx`, 27 MB, DDIM-10 unrolled | `exports/act_reduced.onnx`, 9.6 MB |
+| ONNX vs PyTorch max abs error | 5e-7 | 3e-6 |
+| onnxruntime CPU latency per chunk (batch 1, 2 threads) | 60 ms | 4 ms |
+| closed-loop with ONNX only (`scripts/eval_onnx.py`, first 20 test seeds) | 18/20 (90%) | 16/20 (80%, chunk execution, no temporal ensembling) |
+
+\* The DP run was planned for 24k steps. A quick check at step 4k already gave 7/12 successes, so it
+was resumed from that checkpoint with the cosine schedule shortened to 12k steps to save CPU time.
+
+**Checkpoint selection.** Checkpoints were compared on 24 rollouts on separate *selection* seeds
+(`500000+`, never used for the test numbers above). DP: 8k 75%, 10k 96%, 12k 96%, so the final 12k
+checkpoint was used. ACT: 5k 83%, 7.5k 79%, 10k 79%, so 5k was used.
+
+**Takeaways**
+* With the same encoder budget and data, Diffusion Policy beats ACT on nominal (87% vs 76%). The gap is
+  largest under the visual shifts: distractors 67% vs 48%, lighting 67% vs 41%.
+* Camera shift (±3 cm / ±3° on the front camera) costs little for either policy (-6 / -2 points). The
+  wrist camera, which does not move, plus random-shift augmentation seem to cover this.
+* Distractors and lighting changes hurt most. Neither appears in training (the color jitter is
+  milder than the lighting test). In the failure GIFs the policy goes for the wrong object (the
+  orange bar next to the red cube; the green cube under dim light). The other common failure, also on
+  nominal, is a grasp that slightly misses and knocks the cube. The policy then hovers, because the
+  expert data never shows a re-grasp.
+* These are small, quickly trained CPU models (64x64 images, ResNet18 at 1/4 width). Expect higher
+  numbers from the full config.
+
+Rollout GIFs (left: high-res third-person view for visualization only; right: the policy's actual
+64x64 front and wrist inputs, upscaled; green border = success):
+
+| | Diffusion Policy | ACT |
+|---|---|---|
+| nominal | ![](results/dp_reduced/gifs/nominal_seed1000000_success.gif) | ![](results/act_reduced/gifs/nominal_seed1000000_success.gif) |
+| distractors | ![](results/dp_reduced/gifs/distractors_seed1000001_success.gif) | ![](results/act_reduced/gifs/distractors_seed1000001_fail.gif) |
+| lighting | ![](results/dp_reduced/gifs/lighting_seed1000002_success.gif) | ![](results/act_reduced/gifs/lighting_seed1000001_fail.gif) |
+| camera shift | ![](results/dp_reduced/gifs/camera_shift_seed1000000_success.gif) | ![](results/act_reduced/gifs/camera_shift_seed1000000_success.gif) |
+| DP failures | ![](results/dp_reduced/gifs/distractors_seed1000009_fail.gif) | ![](results/dp_reduced/gifs/lighting_seed1000010_fail.gif) |
+
+All GIFs: `results/*/gifs/`. Per-episode outcomes: `results/*/results.json`.
+Rollouts are stochastic (DDIM noise and unseeded torch RNG), so a re-run gives statistically
+equivalent, not bit-identical, numbers.
+
 
 ## Task & environment (`dpick/env.py`)
 
@@ -52,7 +108,79 @@ meta/episode_ends (200,) int64     attrs: seeds, img_size, noise, ...
 
 ## Policies
 
-<!-- ARCH -->
+### Diffusion Policy (`dpick/models/diffusion.py`)
+
+```mermaid
+flowchart LR
+    subgraph OBS["observation window (To = 2 steps)"]
+        F["front RGB<br/>2 x 3 x 64 x 64"]
+        W["wrist RGB<br/>2 x 3 x 64 x 64"]
+        P["proprio<br/>2 x 12"]
+    end
+    F --> EF["ResNet18 (GroupNorm)<br/>front encoder"] --> SF["spatial softmax<br/>32 keypoints -> 64"]
+    W --> EW["ResNet18 (GroupNorm)<br/>wrist encoder"] --> SW["spatial softmax<br/>32 keypoints -> 64"]
+    SF --> C(("concat<br/>2 x 140 = 280"))
+    SW --> C
+    P --> C
+    C --> FILM["FiLM conditioning<br/>(+ diffusion-step embedding)"]
+    N["x_K ~ N(0, I)<br/>16 x 5 action chunk"] --> U["1D conditional UNet<br/>down 64-128-256, Conv1d + GroupNorm + Mish"]
+    FILM --> U
+    U -->|"predicted noise eps"| D["DDIM step (eta = 0)<br/>x_k -> x_(k-1)"]
+    D -->|"10 iterations"| U
+    D --> A["action chunk 16 x 5<br/>(x, y, z, yaw, grip)"]
+    A --> EX["execute actions 2..9<br/>(Ta = 8), then re-plan"]
+```
+
+* **Encoders**: one ResNet18 per camera (BasicBlock [2,2,2,2]); BatchNorm replaced by GroupNorm as in
+  Diffusion Policy. Reduced config: channel width 16 (1/4 of standard) and a 3x3/stride-2 stem without
+  max-pool so 64x64 images give a 4x4 layer-4 feature map. Full config: standard width 64, standard
+  7x7 stem, 128x128 inputs. Spatial-softmax keypoints -> linear -> ReLU features.
+* **Noise model**: DP's `ConditionalUnet1D` over the action sequence, with FiLM conditioning on
+  [step embedding, flattened obs features of both timesteps].
+* **Diffusion**: 100 training steps with the squared-cosine schedule and epsilon prediction (MSE).
+  Inference uses deterministic **DDIM with 10 steps** and x0 clipping to [-1, 1].
+* **Action chunking**: predict Tp = 16 steps starting at t - 1 (To = 2), execute Ta = 8 steps
+  open-loop, then re-plan (receding horizon).
+* **Training**: AdamW (lr 3e-4, cosine, 500 warm-up steps), batch 64, EMA of weights (DP power-0.75 warm-up)
+  used for evaluation, random-shift (±4 px) + brightness/contrast/saturation (±20%) augmentation,
+  actions and proprio min-max normalized to [-1, 1].
+
+### ACT baseline (`dpick/models/act.py`)
+
+```mermaid
+flowchart LR
+    F["front RGB 3x64x64"] --> BF["ResNet18 -> 1x1 conv<br/>4x4 = 16 tokens"]
+    W["wrist RGB 3x64x64"] --> BW["ResNet18 -> 1x1 conv<br/>4x4 = 16 tokens"]
+    P["proprio 12"] --> TP["proprio token"]
+    Z["z (CVAE latent, 32)<br/>train: q(z | a, proprio)<br/>test: z = 0"] --> TZ["latent token"]
+    BF --> ENC["Transformer encoder<br/>(2D sine pos. emb. + camera emb.)"]
+    BW --> ENC
+    TP --> ENC
+    TZ --> ENC
+    Q["16 learned queries"] --> DEC["Transformer decoder"]
+    ENC --> DEC
+    DEC --> A["action chunk 16 x 5"]
+    A --> TE["temporal ensembling<br/>(w_i = exp(-0.01 i))"]
+```
+
+* Same ResNet18 encoders as DP (feature-map tokens instead of spatial softmax), current frame only.
+* CVAE posterior encoder (transformer over [CLS, proprio, action chunk]) used during training only;
+  loss = L1(action chunk) + 10 * KL.
+* Reduced config: d_model 128, 4 heads, 2 encoder / 2 decoder / 2 CVAE layers. Full config: d_model 256,
+  8 heads, 4/4/4 layers, backbone lr 1e-5.
+* At test time the policy is queried every step and overlapping chunk predictions are averaged
+  (ACT's temporal ensembling).
+* Attention is written with plain matmuls so both models export to ONNX unchanged.
+
+### Model sizes / configs
+
+| config | image | encoder | head | params | where |
+|---|---|---|---|---|---|
+| `dp_reduced` | 64x64 | 2x ResNet18 width 16 | UNet 64-128-256 | 6.5 M | CPU (this repo's numbers) |
+| `act_reduced` | 64x64 | 2x ResNet18 width 16 | d=128, 2+2 layers | 2.8 M | CPU (this repo's numbers) |
+| `dp_full` | 128x128 | 2x ResNet18 width 64 | UNet 256-512-1024 | 93 M | A10 |
+| `act_full` | 128x128 | 2x ResNet18 width 64 | d=256, 4+4 layers | 39 M | A10 |
+
 
 ## Reproduce
 

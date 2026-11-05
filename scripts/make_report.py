@@ -68,7 +68,7 @@ def main():
             errs[1].append(100 * (hi - x["success_rate"]))
         ax.bar(xs, ys, w * 0.95, yerr=errs, capsize=3, label=NAMES.get(r["policy"], name), color=colors[i % 4])
         for x_, y_ in zip(xs, ys):
-            ax.text(x_, y_ + 2, f"{y_:.0f}", ha="center", va="bottom", fontsize=7)
+            ax.text(x_, 3, f"{y_:.0f}%", ha="center", va="bottom", fontsize=8, color="white", fontweight="bold")
     ax.set_xticks(range(len(conds)))
     ax.set_xticklabels([c.replace("_", " ") for c in conds])
     ax.set_ylabel("success rate (%)")

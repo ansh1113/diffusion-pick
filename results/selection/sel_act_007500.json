@@ -1,0 +1,14 @@
+{
+ "ckpt": "runs/act_reduced/step_007500.pt",
+ "policy": "act",
+ "train_step": 7500,
+ "n": 24,
+ "results": {
+  "nominal": {
+   "success_rate": 0.7916666666666666,
+   "n": 24,
+   "n_success": 19,
+   "mean_steps_success": 49.05263157894737
+  }
+ }
+}

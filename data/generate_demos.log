@@ -1,0 +1,3 @@
+192 ok / 32 failed  (258s)
+203 ok / 33 failed  (276s)
+saved 200 demos, 10035 steps (len 38-68, mean 50.2), expert success 200/233 -> data/demos_64.zarr  [277s]
