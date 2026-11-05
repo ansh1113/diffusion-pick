@@ -1,0 +1,32 @@
+# Reduced ACT baseline: same encoder budget as dp_reduced.
+policy: act
+data: data/demos_64.zarr
+img_size: 64
+model:
+  action_dim: 5
+  proprio_dim: 12
+  chunk_size: 16
+  enc_width: 16
+  enc_stem: small
+  d_model: 128
+  nheads: 4
+  ff_dim: 512
+  enc_layers: 2
+  dec_layers: 2
+  vae_layers: 2
+  latent_dim: 32
+  dropout: 0.1
+  kl_weight: 10.0
+  aug_pad: 4
+  aug_jitter: 0.2
+train:
+  batch_size: 64
+  lr: 3.0e-4
+  lr_backbone: 3.0e-4
+  weight_decay: 1.0e-4
+  steps: 30000
+  warmup: 500
+  ema: false
+  log_every: 100
+  ckpt_every: 5000
+  seed: 0

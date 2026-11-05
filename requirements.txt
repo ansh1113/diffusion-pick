@@ -1,0 +1,14 @@
+mujoco>=3.2
+numpy
+torch>=2.2
+torchvision
+zarr>=3
+pyyaml
+imageio
+onnx
+onnxruntime
+onnxscript
+matplotlib
+# only for regenerating the decimated visual meshes (scripts/make_lite_meshes.py)
+trimesh
+fast-simplification

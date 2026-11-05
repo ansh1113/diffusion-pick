@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+*.egg-info/
+# full training checkpoints (with optimizer state) are large; only the selected ones are kept
+runs/**/step_*.pt
+runs/**/last.pt
+data/demos_128.zarr/

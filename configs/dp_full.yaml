@@ -1,0 +1,33 @@
+# Full-resolution Diffusion Policy config (intended for a single A10 / any 24GB GPU).
+# Generate matching data first:
+#   python scripts/generate_demos.py --n 200 --img-size 128 --out data/demos_128.zarr
+policy: diffusion
+data: data/demos_128.zarr
+img_size: 128
+model:
+  action_dim: 5
+  proprio_dim: 12
+  obs_horizon: 2
+  pred_horizon: 16
+  action_horizon: 8
+  enc_width: 64          # standard ResNet18 width (GroupNorm instead of BatchNorm)
+  enc_stem: standard     # 7x7/s2 + maxpool (128x128 -> 4x4 feature map)
+  num_kp: 32
+  img_feat_dim: 128
+  down_dims: [256, 512, 1024]
+  step_embed_dim: 128
+  num_train_steps: 100
+  num_inference_steps: 10
+  aug_pad: 8
+  aug_jitter: 0.2
+train:
+  batch_size: 64
+  lr: 1.0e-4
+  weight_decay: 1.0e-6
+  steps: 100000
+  warmup: 500
+  ema: true
+  amp: true              # bf16 autocast on CUDA
+  log_every: 200
+  ckpt_every: 10000
+  seed: 0

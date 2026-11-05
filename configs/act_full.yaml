@@ -1,0 +1,33 @@
+# Full-resolution ACT baseline (A10).
+policy: act
+data: data/demos_128.zarr
+img_size: 128
+model:
+  action_dim: 5
+  proprio_dim: 12
+  chunk_size: 16
+  enc_width: 64
+  enc_stem: standard
+  d_model: 256
+  nheads: 8
+  ff_dim: 2048
+  enc_layers: 4
+  dec_layers: 4
+  vae_layers: 4
+  latent_dim: 32
+  dropout: 0.1
+  kl_weight: 10.0
+  aug_pad: 8
+  aug_jitter: 0.2
+train:
+  batch_size: 64
+  lr: 1.0e-4
+  lr_backbone: 1.0e-5
+  weight_decay: 1.0e-4
+  steps: 60000
+  warmup: 500
+  ema: false
+  amp: true
+  log_every: 200
+  ckpt_every: 10000
+  seed: 0

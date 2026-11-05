@@ -1,0 +1,30 @@
+# Reduced Diffusion Policy config: trains on a 4-core CPU in a few hours.
+policy: diffusion
+data: data/demos_64.zarr
+img_size: 64
+model:
+  action_dim: 5
+  proprio_dim: 12
+  obs_horizon: 2
+  pred_horizon: 16
+  action_horizon: 8
+  enc_width: 16          # ResNet18 topology, 1/4 channel width
+  enc_stem: small        # 3x3/s2 stem, no max-pool (64x64 -> 4x4 feature map)
+  num_kp: 32
+  img_feat_dim: 64
+  down_dims: [64, 128, 256]
+  step_embed_dim: 64
+  num_train_steps: 100
+  num_inference_steps: 10   # DDIM
+  aug_pad: 4
+  aug_jitter: 0.2
+train:
+  batch_size: 64
+  lr: 3.0e-4
+  weight_decay: 1.0e-6
+  steps: 24000
+  warmup: 500
+  ema: true
+  log_every: 100
+  ckpt_every: 2000
+  seed: 0
