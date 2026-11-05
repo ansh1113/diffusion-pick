@@ -73,10 +73,14 @@ def run_episode(env, runner: PolicyRunner, seed: int, max_steps: int, record=Fal
     runner.reset()
     frames = []
     success, t = False, 0
+    grasp_attempts, closed = 0, False  # number of open->close gripper transitions (>1 = re-grasp)
     for t in range(max_steps):
         if record:
             frames.append(make_frame(obs))
         a = runner.act(obs)
+        if a[4] >= 0.5 and not closed:
+            grasp_attempts += 1
+        closed = a[4] >= 0.5
         obs, _, done, info = env.step(a)
         if info["success"]:
             success = True
@@ -84,7 +88,7 @@ def run_episode(env, runner: PolicyRunner, seed: int, max_steps: int, record=Fal
                 for _ in range(4):
                     frames.append(make_frame(obs, ok=True))
             break
-    return dict(success=success, steps=t + 1), frames
+    return dict(success=success, steps=t + 1, grasp_attempts=grasp_attempts), frames
 
 
 def make_frame(obs, ok=False):

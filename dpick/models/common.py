@@ -145,6 +145,36 @@ def augment(imgs: torch.Tensor, pad: int = 4, jitter: float = 0.2) -> torch.Tens
     return (x.clamp(0, 1) * 255.0)
 
 
+def augment_strong(imgs: torch.Tensor, pad: int = 4) -> torch.Tensor:
+    """v2 photometric augmentation (train time only), (B, T, 3, H, W) uint8 -> float 0..255.
+
+    Random shift, then per sample (shared across the T frames): brightness x[0.55, 1.45] (log-uniform),
+    contrast x[0.65, 1.35], saturation x[0.7, 1.4], per-channel gain x[0.8, 1.2] (color tint),
+    a random linear illumination gradient (+-35% across the image, random direction) and pixel noise.
+    No hue rotation, so red stays red.
+    """
+    x = augment(imgs, pad, jitter=0.0) / 255.0
+    b, t, c, h, w = x.shape
+    dev = x.device
+
+    def u(lo, hi, *shape):
+        return lo + (hi - lo) * torch.rand(b, *shape, device=dev)
+
+    bright = torch.exp(u(math.log(0.55), math.log(1.45), 1, 1, 1, 1))
+    gain = u(0.8, 1.2, 1, 3, 1, 1)
+    x = x * bright * gain
+    m = x.mean(dim=(2, 3, 4), keepdim=True)
+    x = (x - m) * u(0.65, 1.35, 1, 1, 1, 1) + m
+    g = x.mean(dim=2, keepdim=True)
+    x = (x - g) * u(0.7, 1.4, 1, 1, 1, 1) + g
+    ang = u(0, 2 * math.pi, 1, 1, 1, 1)
+    ys = torch.linspace(-1, 1, h, device=dev).view(1, 1, 1, h, 1)
+    xs = torch.linspace(-1, 1, w, device=dev).view(1, 1, 1, 1, w)
+    x = x * (1 + u(0, 0.35, 1, 1, 1, 1) * (torch.cos(ang) * xs + torch.sin(ang) * ys))
+    x = x + torch.randn_like(x) * u(0, 0.02, 1, 1, 1, 1)
+    return x.clamp(0, 1) * 255.0
+
+
 class SinusoidalPosEmb(nn.Module):
     def __init__(self, dim):
         super().__init__()

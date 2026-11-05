@@ -50,6 +50,19 @@ DISTRACTOR_SPECS = [  # (geom type, size, rgba)
     ("box", (0.02, 0.02, 0.02), (0.55, 0.05, 0.05, 1.0)),  # dark-red cube (hard distractor)
 ]
 WORKSPACE = dict(x=(0.38, 0.64), y=(-0.22, 0.22))
+# Training-time distractor pool (v2). Shapes/sizes differ from DISTRACTOR_SPECS (the test set);
+# colors are re-sampled every episode (see PickPlaceEnv._random_distractor_rgba).
+TRAIN_POOL_SPECS = [
+    ("box", (0.025, 0.015, 0.015)),
+    ("box", (0.012, 0.012, 0.025)),
+    ("cylinder", (0.015, 0.03, 0)),
+    ("cylinder", (0.028, 0.01, 0)),
+    ("sphere", (0.016, 0, 0)),
+    ("capsule", (0.012, 0.02, 0)),
+    ("ellipsoid", (0.03, 0.018, 0.014)),
+    ("box", (0.022, 0.022, 0.008)),
+]
+POOL_PARK = np.array([2.6, 0.0, -0.70])  # unused pool objects rest on the floor behind every camera
 
 
 @dataclass
@@ -61,6 +74,9 @@ class EnvConfig:
     light_perturb: bool = False
     camera_shift: bool = False
     viz_size: int = 0  # >0 additionally renders a high-res 'viz' frame for GIFs
+    # TRAINING-ONLY domain randomization (v2): up to this many objects from a procedural pool
+    # (shapes/sizes distinct from the fixed test distractors, random non-red colors) per episode.
+    train_distractors: int = 0
     extra: dict = field(default_factory=dict)
 
 
@@ -95,7 +111,7 @@ FRONT_CAM_TARGET = np.array([0.47, 0.0, 0.02])
 PANDA_VISUAL = os.environ.get("PANDA_VISUAL", "lite")
 
 
-def build_model(n_distractors: int = 0) -> mujoco.MjModel:
+def build_model(n_distractors: int = 0, train_pool: int = 0) -> mujoco.MjModel:
     spec = mujoco.MjSpec.from_file(str(ASSET_DIR / "panda.xml"))
     if PANDA_VISUAL == "lite":
         lite = ASSET_DIR / "assets_lite"
@@ -179,6 +195,16 @@ def build_model(n_distractors: int = 0) -> mujoco.MjModel:
         b.add_geom(name=f"distractor{i}_geom", type=gt, size=list(size), rgba=list(rgba), mass=0.05,
                    friction=[1.0, 0.01, 0.001], condim=4)
 
+    gtypes = {"box": mujoco.mjtGeom.mjGEOM_BOX, "cylinder": mujoco.mjtGeom.mjGEOM_CYLINDER,
+              "sphere": mujoco.mjtGeom.mjGEOM_SPHERE, "capsule": mujoco.mjtGeom.mjGEOM_CAPSULE,
+              "ellipsoid": mujoco.mjtGeom.mjGEOM_ELLIPSOID}
+    for i in range(train_pool):
+        gtype, size = TRAIN_POOL_SPECS[i % len(TRAIN_POOL_SPECS)]
+        b = wb.add_body(name=f"pool{i}", pos=(POOL_PARK + [0, 0.3 * i, 0]).tolist())
+        b.add_freejoint(name=f"pool{i}_joint")
+        b.add_geom(name=f"pool{i}_geom", type=gtypes[gtype], size=list(size), rgba=[0.5, 0.5, 0.5, 1], mass=0.04,
+                   friction=[1.0, 0.01, 0.001], condim=4)
+
     return spec.compile()
 
 
@@ -187,7 +213,7 @@ class PickPlaceEnv:
 
     def __init__(self, cfg: EnvConfig | None = None, seed: int | None = None):
         self.cfg = cfg or EnvConfig()
-        self.model = build_model(self.cfg.n_distractors)
+        self.model = build_model(self.cfg.n_distractors, len(TRAIN_POOL_SPECS) if self.cfg.train_distractors else 0)
         self.data = mujoco.MjData(self.model)
         self.rng = np.random.default_rng(seed)
         self.rng_aux = np.random.default_rng(None if seed is None else seed + 7_777_777)
@@ -199,6 +225,9 @@ class PickPlaceEnv:
         self.bowl_id = m.body("bowl").id
         self.cube_qadr = {c: m.jnt_qposadr[m.joint(f"{c}_cube_joint").id] for c in CUBE_COLORS}
         self.dis_qadr = [m.jnt_qposadr[m.joint(f"distractor{i}_joint").id] for i in range(self.cfg.n_distractors)]
+        n_pool = len(TRAIN_POOL_SPECS) if self.cfg.train_distractors else 0
+        self.pool_qadr = [m.jnt_qposadr[m.joint(f"pool{i}_joint").id] for i in range(n_pool)]
+        self.pool_geom = [m.geom(f"pool{i}_geom").id for i in range(n_pool)]
         self.front_cam = m.camera("front").id
         self._nominal = dict(
             light_diffuse=m.light_diffuse.copy(), light_dir=m.light_dir.copy(), light_pos=m.light_pos.copy(),
@@ -260,8 +289,10 @@ class PickPlaceEnv:
         R = np.zeros(9)
         mujoco.mju_quat2Mat(R, q)
         R = R.reshape(3, 3)
-        # pick the body axis most horizontal & use its heading
-        yaw = np.arctan2(R[1, 0], R[0, 0])
+        # use a body axis that is horizontal (the cube may have been flipped by a knock)
+        k = int(np.argmax(np.abs(R[2, :])))
+        j = 0 if k != 0 else 1
+        yaw = np.arctan2(R[1, j], R[0, j])
         return float((yaw + np.pi / 4) % (np.pi / 2) - np.pi / 4)
 
     def bowl_pos(self):
@@ -327,6 +358,39 @@ class PickPlaceEnv:
             out.append(p)
         return out
 
+    def _random_distractor_rgba(self):
+        """Random color, rejecting anything close to the target red (keeps the task unambiguous)."""
+        import colorsys
+        rng = self.rng_aux
+        while True:
+            h, sat, v = rng.uniform(0, 1), rng.uniform(0.0, 1.0), rng.uniform(0.15, 1.0)
+            hue_deg = h * 360
+            near_red = min(hue_deg, 360 - hue_deg) < 25 and sat > 0.35 and v > 0.25
+            if not near_red:
+                return list(colorsys.hsv_to_rgb(h, sat, v)) + [1.0]
+
+    def _place_pool(self, bowl, pts):
+        rng, m, d = self.rng_aux, self.model, self.data
+        k = int(rng.integers(0, self.cfg.train_distractors + 1))
+        chosen = set(rng.choice(len(self.pool_qadr), size=k, replace=False).tolist()) if k else set()
+        taken = list(pts)
+        x_rng = (WORKSPACE["x"][0] - 0.04, WORKSPACE["x"][1] + 0.04)
+        y_rng = (WORKSPACE["y"][0] - 0.04, WORKSPACE["y"][1] + 0.04)
+        for i, a in enumerate(self.pool_qadr):
+            m.geom_rgba[self.pool_geom[i]] = self._random_distractor_rgba()
+            if i in chosen:
+                for _t in range(500):
+                    p = np.array([rng.uniform(*x_rng), rng.uniform(*y_rng)])
+                    if np.linalg.norm(p - bowl) > BOWL_R_IN + 0.05 and all(np.linalg.norm(p - q) > 0.065 for q in taken):
+                        break
+                taken.append(p)
+                yaw = rng.uniform(-np.pi, np.pi)
+                d.qpos[a:a + 3] = [p[0], p[1], 0.04]
+                d.qpos[a + 3:a + 7] = [np.cos(yaw / 2), 0, 0, np.sin(yaw / 2)]
+            else:
+                d.qpos[a:a + 3] = POOL_PARK + [0, 0.3 * i, 0.05]
+                d.qpos[a + 3:a + 7] = [1, 0, 0, 0]
+
     def _apply_visual_perturbations(self):
         m, nom, rng = self.model, self._nominal, self.rng_aux
         m.light_diffuse[:] = nom["light_diffuse"]
@@ -379,6 +443,8 @@ class PickPlaceEnv:
             yaw = self.rng_aux.uniform(-np.pi, np.pi)
             d.qpos[a:a + 3] = [p[0], p[1], 0.035]
             d.qpos[a + 3:a + 7] = [np.cos(yaw / 2), 0, 0, np.sin(yaw / 2)]
+        if self.pool_qadr:
+            self._place_pool(bowl, pts)
         q0 = HOME_Q + rng.normal(0, 0.06, 7)
         d.qpos[self.arm_qadr] = q0
         d.qpos[self.finger_qadr] = 0.04

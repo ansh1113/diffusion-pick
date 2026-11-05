@@ -9,7 +9,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .common import ImageEncoder, SinusoidalPosEmb, augment, normalize_img
+from .common import ImageEncoder, SinusoidalPosEmb, augment, augment_strong, normalize_img
 
 CAMS = ("front_rgb", "wrist_rgb")
 
@@ -121,13 +121,13 @@ class DiffusionPolicy(nn.Module):
     def __init__(self, action_dim=5, proprio_dim=12, obs_horizon=2, pred_horizon=16, action_horizon=8,
                  enc_width=64, enc_stem="standard", num_kp=32, img_feat_dim=64,
                  down_dims=(256, 512, 1024), step_embed_dim=128, num_train_steps=100, num_inference_steps=10,
-                 aug_pad=4, aug_jitter=0.2):
+                 aug_pad=4, aug_jitter=0.2, aug_strong=False):
         super().__init__()
         self.hparams = dict(locals())
         self.hparams.pop("self")
         self.hparams.pop("__class__", None)
         self.To, self.Tp, self.Ta, self.A = obs_horizon, pred_horizon, action_horizon, action_dim
-        self.aug_pad, self.aug_jitter = aug_pad, aug_jitter
+        self.aug_pad, self.aug_jitter, self.aug_strong = aug_pad, aug_jitter, aug_strong
         self.encoders = nn.ModuleDict({c: ImageEncoder(enc_width, enc_stem, num_kp, img_feat_dim) for c in CAMS})
         obs_dim = len(CAMS) * img_feat_dim + proprio_dim
         self.unet = ConditionalUnet1D(action_dim, obs_dim * obs_horizon, step_embed_dim, down_dims)
@@ -137,7 +137,9 @@ class DiffusionPolicy(nn.Module):
         feats = []
         for c in CAMS:
             x = batch[c]  # B, To, 3, H, W  (uint8 or float 0..255)
-            if train and (self.aug_pad or self.aug_jitter):
+            if train and self.aug_strong:
+                x = augment_strong(x, self.aug_pad)
+            elif train and (self.aug_pad or self.aug_jitter):
                 x = augment(x, self.aug_pad, self.aug_jitter)
             b, t = x.shape[:2]
             f = self.encoders[c](normalize_img(x.reshape(b * t, *x.shape[2:])))

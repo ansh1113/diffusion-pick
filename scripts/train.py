@@ -76,7 +76,8 @@ def main():
     Tp = m["chunk_size"] if is_act else m["pred_horizon"]
     ds = SequenceDataset(cfg["data"], obs_horizon=To, pred_horizon=Tp, action_from_current=is_act)
     assert ds.attrs.get("img_size", cfg["img_size"]) == cfg["img_size"], "dataset / config image size mismatch"
-    print(f"dataset: {len(ds)} samples from {cfg['data']}", flush=True)
+    print(f"dataset: {len(ds)} samples from {cfg['data']} ({ds.n_masked} masked: chunk contains a deliberate mistake)",
+          flush=True)
 
     model = build_policy(cfg).to(device)
     n_params = sum(p.numel() for p in model.parameters())

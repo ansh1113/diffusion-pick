@@ -33,9 +33,24 @@ def write_zarr(path, episodes, attrs=None):
 
 
 def load_zarr(path):
+    """Load one zarr file, or a list of them concatenated (episode boundaries preserved)."""
+    if isinstance(path, (list, tuple)):
+        parts = [load_zarr(p) for p in path]
+        keys = set.intersection(*[set(d) for d, _, _ in parts]) | {"expert_mask"}
+        data, ends, off = {}, [], 0
+        for d, e, _ in parts:
+            ends.append(e + off)
+            off += int(e[-1])
+        for k in keys:
+            data[k] = np.concatenate([d[k] for d, _, _ in parts], 0)
+        attrs = dict(parts[0][2])
+        attrs["sources"] = [dict(path=str(p), n_episodes=len(e)) for p, (_, e, _) in zip(path, parts)]
+        return data, np.concatenate(ends), attrs
     root = zarr.open_group(str(path), mode="r")
     data = {k: root["data"][k][:] for k in root["data"].array_keys()}
     ends = root["meta"]["episode_ends"][:]
+    if "expert_mask" not in data:  # v1 data: every action is an expert action
+        data["expert_mask"] = np.ones(len(data["action"]), np.uint8)
     return data, ends, dict(root.attrs)
 
 
@@ -90,10 +105,18 @@ class SequenceDataset(torch.utils.data.Dataset):
         self.action_from_current = action_from_current
         self.data = data
         # images stored as uint8 NHWC; converted lazily to float CHW in __getitem__
-        self.index = []
+        # Samples whose action chunk contains a deliberate-mistake action (expert_mask == 0, v2 recovery
+        # demos) are dropped: the policy sees the resulting states but never learns to make the mistake.
+        bad = 1 - data["expert_mask"].astype(np.int64)
+        self.index, self.n_masked = [], 0
         for e in episode_idx:
             s, t = starts[e], ends[e]
             for i in range(s, t):
+                a0 = i if action_from_current else i - obs_horizon + 1
+                lo, hi = max(a0, s), min(a0 + pred_horizon, t)
+                if bad[lo:hi].any():
+                    self.n_masked += 1
+                    continue
                 self.index.append((i, s, t))
         self.index = np.array(self.index, dtype=np.int64)
         sel = np.concatenate([np.arange(starts[e], ends[e]) for e in episode_idx])
