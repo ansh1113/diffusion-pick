@@ -152,6 +152,41 @@ learned behavior, but it does not always converge.
 | camera shift | ![](results/dp_v2/gifs/camera_shift_seed1000000_success.gif) |
 | failure: hesitation with distractors | ![](results/dp_v2/gifs/distractors_seed1000006_fail.gif) |
 
+## Browser fine-tune (`dp_browser`)
+
+[mujoco-web-demo](https://github.com/ansh1113/mujoco-web-demo) runs this task in the browser: MuJoCo WASM for
+physics, three.js for rendering, onnxruntime-web for the policy. To adapt the policy to that renderer:
+
+* `scripts/export_states.py` re-runs the deterministic expert for every seed in `data/demos_64.zarr` and records
+  `qpos` + bowl position per frame (`data/demos_64_states.npz`). The re-run reproduces the stored proprio and actions
+  with 0.0 error.
+* mujoco-web-demo's `tools/lab` re-renders those states through the site's three.js cameras in headless Chromium.
+  The result is `data/demos_64_threejs.zarr`: same 200 demos, 10,035 frames, identical actions/proprio/episode_ends.
+* `scripts/finetune.py` fine-tunes `runs/dp_reduced/best.pt`:
+  * each batch is half original frames and half three.js frames;
+  * colour jitter is raised from 0.2 to 0.3, plus a ±12% per-channel gain;
+  * the original normalizers are kept;
+  * 10,390 steps in 75 min on 4 CPU cores.
+
+  Outputs: `runs/dp_browser/best.pt`, and `exports/dp_browser.onnx` (matches torch to 5e-7).
+
+| Policy | Browser, three.js renders (50 layouts) | `eval_onnx.py --n 50`, MuJoCo renders |
+|---|---:|---:|
+| `dp_reduced` | 40/50 | 44/50 |
+| `dp_browser` | 43/50 | 41/50 |
+
+Neither difference is significant at n = 50 (paired exact McNemar p ≈ 0.55 and 0.58). Per-episode results are in
+`results/dp_browser/python_eval_onnx_n50.json` here, and in `results/browser_eval_*.json` in mujoco-web-demo.
+
+```bash
+python scripts/export_states.py --zarr data/demos_64.zarr --out data/demos_64_states.npz
+# in mujoco-web-demo: tools/replay_to_zarr.py states -> tools/lab/run.cjs render -> tools/replay_to_zarr.py zarr
+python scripts/finetune.py --ckpt runs/dp_reduced/best.pt --data data/demos_64.zarr data/demos_64_threejs.zarr \
+    --out runs/dp_browser --minutes 75
+cp runs/dp_browser/last.pt runs/dp_browser/best.pt
+python scripts/export_onnx.py --ckpt runs/dp_browser/best.pt --out exports/dp_browser.onnx
+```
+
 ## v1 results (baseline iteration)
 
 100 randomized rollouts per condition on held-out test seeds (`1000000-1000099`, disjoint from the
@@ -415,9 +450,12 @@ dpick/rollout.py             closed-loop execution (receding horizon / temporal 
 configs/                     dp_reduced / act_reduced (CPU), dp_full / act_full (A10),
                              dp_v2 + ablations dp_v2_recovery_only / dp_v2_aug_only (CPU)
 scripts/                     generate_demos, train, evaluate, export_onnx, eval_onnx, make_report,
-                             compare_paired, render_failures, render_seeds, make_lite_meshes
+                             compare_paired, render_failures, render_seeds, make_lite_meshes,
+                             export_states, finetune (browser fine-tune)
 data/demos_64.zarr           the 200 v1 demonstrations
 data/*_distract.zarr, data/recovery_64*.zarr   v2 data (train distractors / recovery demos)
+data/demos_64_threejs.zarr   the same demos re-rendered by mujoco-web-demo's three.js renderer
+data/demos_64_states.npz     per-frame qpos + bowl position for demos_64.zarr (scripts/export_states.py)
 runs/*/best.pt               selected checkpoints (+ train_log.jsonl)
 results/                     results.json per policy, results.md, success_rates.png, GIFs
 exports/                     ONNX models + metadata json
